@@ -1,0 +1,87 @@
+g++ -msse -msse2 -Wall -I.. -pthread -DKALDI_DOUBLEPRECISION=0 -DHAVE_POSIX_MEMALIGN -Wno-sign-compare -Wno-unused-local-typedefs -Winit-self -DHAVE_EXECINFO_H=1 -rdynamic -DHAVE_CXXABI_H -DHAVE_ATLAS -I/mnt/matylda6/baskar/Kaldi/Updatable_Kaldi_GIT/tools/ATLAS/include -I/mnt/matylda6/baskar/Kaldi/Updatable_Kaldi_GIT/tools/openfst/include  -g  -DHAVE_CUDA -I/usr/local/share/cuda/include   -c -o cu-device.o cu-device.cc
+g++ -msse -msse2 -Wall -I.. -pthread -DKALDI_DOUBLEPRECISION=0 -DHAVE_POSIX_MEMALIGN -Wno-sign-compare -Wno-unused-local-typedefs -Winit-self -DHAVE_EXECINFO_H=1 -rdynamic -DHAVE_CXXABI_H -DHAVE_ATLAS -I/mnt/matylda6/baskar/Kaldi/Updatable_Kaldi_GIT/tools/ATLAS/include -I/mnt/matylda6/baskar/Kaldi/Updatable_Kaldi_GIT/tools/openfst/include  -g  -DHAVE_CUDA -I/usr/local/share/cuda/include   -c -o cu-math.o cu-math.cc
+g++ -msse -msse2 -Wall -I.. -pthread -DKALDI_DOUBLEPRECISION=0 -DHAVE_POSIX_MEMALIGN -Wno-sign-compare -Wno-unused-local-typedefs -Winit-self -DHAVE_EXECINFO_H=1 -rdynamic -DHAVE_CXXABI_H -DHAVE_ATLAS -I/mnt/matylda6/baskar/Kaldi/Updatable_Kaldi_GIT/tools/ATLAS/include -I/mnt/matylda6/baskar/Kaldi/Updatable_Kaldi_GIT/tools/openfst/include  -g  -DHAVE_CUDA -I/usr/local/share/cuda/include   -c -o cu-matrix.o cu-matrix.cc
+cu-matrix.cc: In instantiation of ‘void kaldi::CuMatrixBase<Real>::PReLU(const kaldi::CuMatrixBase<Real>&, const kaldi::CuVectorBase<Real>&, const kaldi::CuVectorBase<Real>&) [with Real = float]’:
+cu-matrix.cc:2906:16:   required from here
+cu-matrix.cc:1498:84: error: no matching function for call to ‘cuda_prelu(dim3&, dim3&, float*&, float* const&, MatrixDim, kaldi::MatrixIndexT)’
+     cuda_prelu(dimGrid, dimBlock, this->data_, src.data_, this->Dim(), src.Stride());
+                                                                                    ^
+cu-matrix.cc:1498:84: note: candidates are:
+In file included from ../cudamatrix/cu-array-inl.h:30:0,
+                 from ../cudamatrix/cu-array.h:127,
+                 from ../cudamatrix/cu-math.h:26,
+                 from ../cudamatrix/cu-vector.h:32,
+                 from cu-matrix.cc:33:
+../cudamatrix/cu-kernels.h:244:13: note: void kaldi::cuda_prelu(dim3, dim3, float*, const float*, MatrixDim, int, const float*, const float*)
+ inline void cuda_prelu(dim3 Gr, dim3 Bl, float *y, const float *x, MatrixDim d, int src_stride, const float *a, const float *b) { cudaF_prelu(Gr,Bl,y,x,d,src_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:244:13: note:   candidate expects 8 arguments, 6 provided
+../cudamatrix/cu-kernels.h:434:13: note: void kaldi::cuda_prelu(dim3, dim3, double*, const double*, MatrixDim, int, const double*, const double*)
+ inline void cuda_prelu(dim3 Gr, dim3 Bl, double *y, const double *x, MatrixDim d, int src_stride, const double *a, const double *b) { cudaD_prelu(Gr,Bl,y,x,d,src_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:434:13: note:   candidate expects 8 arguments, 6 provided
+cu-matrix.cc: In instantiation of ‘void kaldi::CuMatrixBase<Real>::DiffPReLU(const kaldi::CuMatrixBase<Real>&, const kaldi::CuMatrixBase<Real>&, const kaldi::CuVectorBase<Real>&, const kaldi::CuVectorBase<Real>&) [with Real = float]’:
+cu-matrix.cc:2906:16:   required from here
+cu-matrix.cc:1521:108: error: no matching function for call to ‘cuda_diff_prelu(dim3&, dim3&, float*&, float* const&, float* const&, MatrixDim, kaldi::MatrixIndexT, kaldi::MatrixIndexT)’
+     cuda_diff_prelu(dimGrid, dimBlock, data_, diff.data_, value.data_, Dim(), diff.Stride(), value.Stride());
+                                                                                                            ^
+cu-matrix.cc:1521:108: note: candidates are:
+In file included from ../cudamatrix/cu-array-inl.h:30:0,
+                 from ../cudamatrix/cu-array.h:127,
+                 from ../cudamatrix/cu-math.h:26,
+                 from ../cudamatrix/cu-vector.h:32,
+                 from cu-matrix.cc:33:
+../cudamatrix/cu-kernels.h:245:13: note: void kaldi::cuda_diff_prelu(dim3, dim3, float*, const float*, const float*, MatrixDim, int, int, const float*, const float*)
+ inline void cuda_diff_prelu(dim3 Gr, dim3 Bl, float *eout, const float *e, const float *y, MatrixDim d, int e_stride, int y_stride, const float *a, const float *b) { cudaF_diff_prelu(Gr,Bl,eout,e,y,d,e_stride,y_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:245:13: note:   candidate expects 10 arguments, 8 provided
+../cudamatrix/cu-kernels.h:435:13: note: void kaldi::cuda_diff_prelu(dim3, dim3, double*, const double*, const double*, MatrixDim, int, int, const double*, const double*)
+ inline void cuda_diff_prelu(dim3 Gr, dim3 Bl, double *eout, const double *e, const double *y, MatrixDim d, int e_stride, int y_stride, const double *a, const double *b) { cudaD_diff_prelu(Gr,Bl,eout,e,y,d,e_stride,y_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:435:13: note:   candidate expects 10 arguments, 8 provided
+cu-matrix.cc: In instantiation of ‘void kaldi::CuMatrixBase<Real>::PReLU(const kaldi::CuMatrixBase<Real>&, const kaldi::CuVectorBase<Real>&, const kaldi::CuVectorBase<Real>&) [with Real = double]’:
+cu-matrix.cc:2907:16:   required from here
+cu-matrix.cc:1498:84: error: no matching function for call to ‘cuda_prelu(dim3&, dim3&, double*&, double* const&, MatrixDim, kaldi::MatrixIndexT)’
+     cuda_prelu(dimGrid, dimBlock, this->data_, src.data_, this->Dim(), src.Stride());
+                                                                                    ^
+cu-matrix.cc:1498:84: note: candidates are:
+In file included from ../cudamatrix/cu-array-inl.h:30:0,
+                 from ../cudamatrix/cu-array.h:127,
+                 from ../cudamatrix/cu-math.h:26,
+                 from ../cudamatrix/cu-vector.h:32,
+                 from cu-matrix.cc:33:
+../cudamatrix/cu-kernels.h:244:13: note: void kaldi::cuda_prelu(dim3, dim3, float*, const float*, MatrixDim, int, const float*, const float*)
+ inline void cuda_prelu(dim3 Gr, dim3 Bl, float *y, const float *x, MatrixDim d, int src_stride, const float *a, const float *b) { cudaF_prelu(Gr,Bl,y,x,d,src_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:244:13: note:   candidate expects 8 arguments, 6 provided
+../cudamatrix/cu-kernels.h:434:13: note: void kaldi::cuda_prelu(dim3, dim3, double*, const double*, MatrixDim, int, const double*, const double*)
+ inline void cuda_prelu(dim3 Gr, dim3 Bl, double *y, const double *x, MatrixDim d, int src_stride, const double *a, const double *b) { cudaD_prelu(Gr,Bl,y,x,d,src_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:434:13: note:   candidate expects 8 arguments, 6 provided
+cu-matrix.cc: In instantiation of ‘void kaldi::CuMatrixBase<Real>::DiffPReLU(const kaldi::CuMatrixBase<Real>&, const kaldi::CuMatrixBase<Real>&, const kaldi::CuVectorBase<Real>&, const kaldi::CuVectorBase<Real>&) [with Real = double]’:
+cu-matrix.cc:2907:16:   required from here
+cu-matrix.cc:1521:108: error: no matching function for call to ‘cuda_diff_prelu(dim3&, dim3&, double*&, double* const&, double* const&, MatrixDim, kaldi::MatrixIndexT, kaldi::MatrixIndexT)’
+     cuda_diff_prelu(dimGrid, dimBlock, data_, diff.data_, value.data_, Dim(), diff.Stride(), value.Stride());
+                                                                                                            ^
+cu-matrix.cc:1521:108: note: candidates are:
+In file included from ../cudamatrix/cu-array-inl.h:30:0,
+                 from ../cudamatrix/cu-array.h:127,
+                 from ../cudamatrix/cu-math.h:26,
+                 from ../cudamatrix/cu-vector.h:32,
+                 from cu-matrix.cc:33:
+../cudamatrix/cu-kernels.h:245:13: note: void kaldi::cuda_diff_prelu(dim3, dim3, float*, const float*, const float*, MatrixDim, int, int, const float*, const float*)
+ inline void cuda_diff_prelu(dim3 Gr, dim3 Bl, float *eout, const float *e, const float *y, MatrixDim d, int e_stride, int y_stride, const float *a, const float *b) { cudaF_diff_prelu(Gr,Bl,eout,e,y,d,e_stride,y_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:245:13: note:   candidate expects 10 arguments, 8 provided
+../cudamatrix/cu-kernels.h:435:13: note: void kaldi::cuda_diff_prelu(dim3, dim3, double*, const double*, const double*, MatrixDim, int, int, const double*, const double*)
+ inline void cuda_diff_prelu(dim3 Gr, dim3 Bl, double *eout, const double *e, const double *y, MatrixDim d, int e_stride, int y_stride, const double *a, const double *b) { cudaD_diff_prelu(Gr,Bl,eout,e,y,d,e_stride,y_stride,a,b); }
+             ^
+../cudamatrix/cu-kernels.h:435:13: note:   candidate expects 10 arguments, 8 provided
+In file included from ../base/kaldi-common.h:38:0,
+                 from ../matrix/matrix-common.h:26,
+                 from ../cudamatrix/cu-common.h:30,
+                 from cu-matrix.cc:32:
+../base/kaldi-math.h:130:17: warning: ‘kaldi::kLogZeroBaseFloat’ defined but not used [-Wunused-variable]
+ const BaseFloat kLogZeroBaseFloat = -std::numeric_limits<BaseFloat>::infinity();
+                 ^
+make: *** [cu-matrix.o] Error 1
